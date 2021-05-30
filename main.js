@@ -3,8 +3,19 @@ const pickaxes = {
 	STONE: 'stone',
 };
 
-const inv = {
+const stats = {
 	pickaxe: pickaxes.WOODEN,
+	miningAmounts: {
+		stone: 1,
+		coal: 1,
+	},
+	sellValue: {
+		stone: 1,
+		coal: 3,
+	},
+};
+
+const inv = {
 	money: 0,
 	stone: 0,
 	coal: 0,
@@ -17,11 +28,11 @@ render();
 //#region Basic functions
 function render() {
 	// Current Pickaxe
-	document.querySelector('#pickaxe').textContent = inv.pickaxe;
+	document.querySelector('#pickaxe').textContent = stats.pickaxe;
 
 	// Buy Pickaxe Button
 	let nextPickaxe = document.querySelector('#nextPickaxe');
-	switch (inv.pickaxe) {
+	switch (stats.pickaxe) {
 		case pickaxes.WOODEN:
 			nextPickaxe.textContent = pickaxes.STONE.toUpperCase();
 			break;
@@ -29,12 +40,17 @@ function render() {
 			break;
 	}
 
-	//
-
-	// Inventory Items
+	// Money
 	document.querySelector('#moneyAmt').textContent = inv.money;
 
-	switch (inv.pickaxe) {
+	// Mining Amounts
+	document.querySelector('#miningAmtStone').textContent =
+		stats.miningAmounts.stone;
+	document.querySelector('#miningAmtCoal').textContent =
+		stats.miningAmounts.coal;
+
+	// Inventory Items
+	switch (stats.pickaxe) {
 		case pickaxes.STONE:
 			document.getElementById('coal').style.display = 'unset';
 			document.querySelector('#coalAmt').textContent = inv.coal;
@@ -46,10 +62,13 @@ function render() {
 
 //#region Actions
 document.querySelector('#upgrade').onclick = () => {
-	switch (inv.pickaxe) {
+	switch (stats.pickaxe) {
 		case pickaxes.WOODEN:
-			if (inv.money >= 15) inv.pickaxe = pickaxes.STONE;
-			inv.money -= 15;
+			if (inv.money >= 3) {
+				stats.pickaxe = pickaxes.STONE;
+				inv.money -= 3;
+				stats.miningAmounts.stone = 2;
+			}
 			break;
 	}
 
@@ -57,13 +76,21 @@ document.querySelector('#upgrade').onclick = () => {
 };
 
 document.querySelector('#sell').onclick = () => {
-	inv.money += inv.stone;
+	inv.money += inv.stone * stats.sellValue.stone;
 	inv.stone = 0;
+	inv.money += inv.coal * stats.sellValue.coal;
+	inv.coal = 0;
+
 	render();
 };
 
 document.querySelector('#mineStone').onclick = () => {
-	inv.stone++;
+	inv.stone += stats.miningAmounts.stone;
+	render();
+};
+
+document.querySelector('#mineCoal').onclick = () => {
+	inv.coal += stats.miningAmounts.coal;
 	render();
 };
 
