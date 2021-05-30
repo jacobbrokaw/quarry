@@ -21,7 +21,7 @@ button {
 
 #stats {
 	background-color: #fff2;
-	width: 22.5rem;
+	max-width: 22.5rem;
 	padding: 2px;
 }
 
