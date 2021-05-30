@@ -3,32 +3,44 @@ const pickaxes = {
 	STONE: 'stone',
 };
 
-//#region Init
 const inv = {
 	pickaxe: pickaxes.WOODEN,
 	money: 0,
 	stone: 0,
+	coal: 0,
 };
 
-updateInv();
+//#region Init
+render();
 //#endregion
 
 //#region Basic functions
-function updateInv() {
+function render() {
+	// Current Pickaxe
 	document.querySelector('#pickaxe').textContent = inv.pickaxe;
 
+	// Buy Pickaxe Button
 	let nextPickaxe = document.querySelector('#nextPickaxe');
 	switch (inv.pickaxe) {
 		case pickaxes.WOODEN:
 			nextPickaxe.textContent = pickaxes.STONE.toUpperCase();
 			break;
 		case pickaxes.STONE:
-			nextPickaxe.textContent = 'Implement this'; // TODO: Implement next pickaxe
 			break;
 	}
 
+	//
+
+	// Inventory Items
 	document.querySelector('#moneyAmt').textContent = inv.money;
-	document.querySelector('#stoneAmt').textContent = inv.stone;
+
+	switch (inv.pickaxe) {
+		case pickaxes.STONE:
+			document.getElementById('coal').style.display = 'unset';
+			document.querySelector('#coalAmt').textContent = inv.coal;
+		case pickaxes.WOODEN:
+			document.querySelector('#stoneAmt').textContent = inv.stone;
+	}
 }
 //#endregion
 
@@ -36,22 +48,23 @@ function updateInv() {
 document.querySelector('#upgrade').onclick = () => {
 	switch (inv.pickaxe) {
 		case pickaxes.WOODEN:
-			if (inv.money >= 50) inv.pickaxe = pickaxes.STONE;
+			if (inv.money >= 15) inv.pickaxe = pickaxes.STONE;
+			inv.money -= 15;
 			break;
 	}
 
-	updateInv();
+	render();
 };
 
 document.querySelector('#sell').onclick = () => {
 	inv.money += inv.stone;
 	inv.stone = 0;
-	updateInv();
+	render();
 };
 
 document.querySelector('#mineStone').onclick = () => {
 	inv.stone++;
-	updateInv();
+	render();
 };
 
 //#endregion

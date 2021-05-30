@@ -16,15 +16,19 @@
   </section>
 
   <section id="inventory">
-    <h3>Money: $<strong id="moneyAmt"></strong></h3>
-    <h2>Stone: <strong id="stoneAmt"></strong></h2>
-  </section>
-
-  <section id="actions">
+    <h3>Money:&nbsp;$<strong id="moneyAmt"></strong></h3>
     <button id="sell"><strong>Sell All</strong></button><br>
-    <button id="mineStone">Mine Stone</button><br>
-  </section>
 
+    <div id="stone" class="resource">
+      Stone&nbsp;<strong id="stoneAmt"></strong>
+      <button id="mineStone">Mine Stone</button>
+    </div>
+
+    <div id="coal" class="resource" style="display: none;">
+      Coal&nbsp;<strong id="coalAmt"></strong>
+      <button id="mineCoal">Mine Coal</button>
+    </div>
+  </section>
 
   <script type="module" src="/main.js"></script>
 </body>
