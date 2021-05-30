@@ -3,9 +3,11 @@ html {
 	margin-top: 60px;
 	background-color: #000;
 	color: #dacfc5;
-	text-align: center;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 section {
@@ -17,9 +19,14 @@ button {
 	padding: 3px;
 }
 
+#stats {
+	background-color: #fff2;
+	width: 22.5rem;
+	padding: 2px;
+}
+
 #inventory .resource {
-	display: flex;
-	justify-content: center;
+	/* display: flex; */
 	align-items: center;
 	font-size: 1.2rem;
 }

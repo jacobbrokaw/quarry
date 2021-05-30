@@ -1,10 +1,17 @@
 const pickaxes = {
-	WOODEN: 'wooden',
-	STONE: 'stone',
+	WOODEN: {
+		name: 'wooden',
+		details: null,
+	},
+	STONE: {
+		name: 'stone',
+		details: 'Enables coal mining.\nReceive 2 stone per swing.',
+	},
 };
 
 const stats = {
 	pickaxe: pickaxes.WOODEN,
+	nextPickaxe: pickaxes.STONE,
 	miningAmounts: {
 		stone: 1,
 		coal: 1,
@@ -28,13 +35,15 @@ render();
 //#region Basic functions
 function render() {
 	// Current Pickaxe
-	document.querySelector('#pickaxe').textContent = stats.pickaxe;
+	document.querySelector('#pickaxe').textContent = stats.pickaxe.name;
 
 	// Buy Pickaxe Button
 	let nextPickaxe = document.querySelector('#nextPickaxe');
+	let pickaxeDetails = document.querySelector('#pickaxeDetails');
 	switch (stats.pickaxe) {
 		case pickaxes.WOODEN:
-			nextPickaxe.textContent = pickaxes.STONE.toUpperCase();
+			nextPickaxe.textContent = pickaxes.STONE.name.toUpperCase();
+			pickaxeDetails.textContent = pickaxes.STONE.details;
 			break;
 		case pickaxes.STONE:
 			break;
@@ -57,16 +66,33 @@ function render() {
 		case pickaxes.WOODEN:
 			document.querySelector('#stoneAmt').textContent = inv.stone;
 	}
+
+	renderNextPickaxe();
+}
+
+function renderNextPickaxe() {
+	let button = document.getElementById('upgrade');
+	let details = document.getElementById('pickaxeDetails');
+	if (!stats.nextPickaxe) {
+		button.style.display = 'none';
+		details.style.display = 'none';
+		return;
+	}
+
+	document.getElementById('nextPickaxe').textContent =
+		stats.nextPickaxe.name.toUpperCase();
+	details.textContent = stats.nextPickaxe.details;
 }
 //#endregion
 
 //#region Actions
 document.querySelector('#upgrade').onclick = () => {
-	switch (stats.pickaxe) {
-		case pickaxes.WOODEN:
+	switch (stats.nextPickaxe) {
+		case pickaxes.STONE:
 			if (inv.money >= 3) {
 				stats.pickaxe = pickaxes.STONE;
 				inv.money -= 3;
+				stats.nextPickaxe = null;
 				stats.miningAmounts.stone = 2;
 			}
 			break;
